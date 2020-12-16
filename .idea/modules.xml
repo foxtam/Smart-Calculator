@@ -3,6 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Smart_Calculator.iml" filepath="$PROJECT_DIR$/.idea/modules/Smart_Calculator.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Problems/Remove extra spaces/Smart_Calculator.Problems-Remove_extra_spaces.iml" filepath="$PROJECT_DIR$/.idea/modules/Problems/Remove extra spaces/Smart_Calculator.Problems-Remove_extra_spaces.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Problems/Remove extra spaces/Smart_Calculator.Problems-Remove_extra_spaces.main.iml" filepath="$PROJECT_DIR$/.idea/modules/Problems/Remove extra spaces/Smart_Calculator.Problems-Remove_extra_spaces.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Problems/Remove extra spaces/Smart_Calculator.Problems-Remove_extra_spaces.test.iml" filepath="$PROJECT_DIR$/.idea/modules/Problems/Remove extra spaces/Smart_Calculator.Problems-Remove_extra_spaces.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Smart Calculator/task/Smart_Calculator.Smart_Calculator-task.iml" filepath="$PROJECT_DIR$/.idea/modules/Smart Calculator/task/Smart_Calculator.Smart_Calculator-task.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Smart Calculator/task/Smart_Calculator.Smart_Calculator-task.main.iml" filepath="$PROJECT_DIR$/.idea/modules/Smart Calculator/task/Smart_Calculator.Smart_Calculator-task.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Smart Calculator/task/Smart_Calculator.Smart_Calculator-task.test.iml" filepath="$PROJECT_DIR$/.idea/modules/Smart Calculator/task/Smart_Calculator.Smart_Calculator-task.test.iml" />
