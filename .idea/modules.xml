@@ -3,6 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Smart_Calculator.iml" filepath="$PROJECT_DIR$/.idea/modules/Smart_Calculator.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Problems/Remove HTML tags/Smart_Calculator.Problems-Remove_HTML_tags.iml" filepath="$PROJECT_DIR$/.idea/modules/Problems/Remove HTML tags/Smart_Calculator.Problems-Remove_HTML_tags.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Problems/Remove HTML tags/Smart_Calculator.Problems-Remove_HTML_tags.main.iml" filepath="$PROJECT_DIR$/.idea/modules/Problems/Remove HTML tags/Smart_Calculator.Problems-Remove_HTML_tags.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Problems/Remove HTML tags/Smart_Calculator.Problems-Remove_HTML_tags.test.iml" filepath="$PROJECT_DIR$/.idea/modules/Problems/Remove HTML tags/Smart_Calculator.Problems-Remove_HTML_tags.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Problems/Remove extra spaces/Smart_Calculator.Problems-Remove_extra_spaces.iml" filepath="$PROJECT_DIR$/.idea/modules/Problems/Remove extra spaces/Smart_Calculator.Problems-Remove_extra_spaces.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Problems/Remove extra spaces/Smart_Calculator.Problems-Remove_extra_spaces.main.iml" filepath="$PROJECT_DIR$/.idea/modules/Problems/Remove extra spaces/Smart_Calculator.Problems-Remove_extra_spaces.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Problems/Remove extra spaces/Smart_Calculator.Problems-Remove_extra_spaces.test.iml" filepath="$PROJECT_DIR$/.idea/modules/Problems/Remove extra spaces/Smart_Calculator.Problems-Remove_extra_spaces.test.iml" />
