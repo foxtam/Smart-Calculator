@@ -98,7 +98,7 @@ public class Main {
 
     private static int calculateExpression(String line) throws InvalidExpressionException, UnknownVariableException {
         line = shrinkOperators(line);
-        line = insertValues(line);
+        line = replaceVariables(line);
         if (hasAnyLetter(line)) throw new UnknownVariableException();
         String[] tokens = line.split("\\s+");
         return parseAndCalculate(tokens);
@@ -125,7 +125,7 @@ public class Main {
         return line.matches(".*[a-zA-Z].*");
     }
 
-    private static String insertValues(String line) {
+    private static String replaceVariables(String line) {
         for (Map.Entry<String, Integer> entry : store.entrySet()) {
             line = line.replaceAll("\\b" + entry.getKey() + "\\b", entry.getValue().toString());
         }
