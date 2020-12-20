@@ -1,21 +1,6 @@
 type: edu
 custom_name: stage6
 files:
-- name: src/calculator/Main.java
-  visible: true
-  text: |
-    package calculator;
-
-    import java.util.Scanner;
-
-    public class Main {
-
-        public static void main(String[] args) {
-            Scanner scanner = new Scanner(System.in);
-            // put your code here
-        }
-    }
-  learner_created: false
 - name: test/Test.java
   visible: false
   text: |
@@ -292,6 +277,39 @@ files:
         }
     }
   learner_created: false
+- name: src/calculator/exception/InvalidIdentifierException.java
+  visible: true
+  learner_created: true
+- name: src/calculator/exception/InvalidAssignmentException.java
+  visible: true
+  learner_created: true
+- name: src/calculator/exception/UnknownVariableException.java
+  visible: true
+  learner_created: true
+- name: src/calculator/exception/InvalidExpressionException.java
+  visible: true
+  learner_created: true
+- name: src/calculator/Main.java
+  visible: true
+  text: |
+    package calculator;
+
+    import java.util.Scanner;
+
+    public class Main {
+
+        public static void main(String[] args) {
+            Scanner scanner = new Scanner(System.in);
+            // put your code here
+        }
+    }
+  learner_created: false
+- name: src/calculator/exception/UnknownCommandException.java
+  visible: true
+  learner_created: true
 feedback_link: https://hyperskill.org/projects/42/stages/225/implement#comment
-status: Unchecked
-record: -1
+status: Solved
+feedback:
+  message: Congratulations!
+  time: Fri, 18 Dec 2020 19:06:58 UTC
+record: 6

@@ -236,6 +236,46 @@ files:
         }
     }
   learner_created: false
+- name: src/calculator/exception/InvalidExpressionException.java
+  visible: true
+  text: |
+    package calculator.exception;
+
+    public class InvalidExpressionException extends Exception {
+    }
+  learner_created: true
+- name: src/calculator/exception/UnknownCommandException.java
+  visible: true
+  text: |
+    package calculator.exception;
+
+    public class UnknownCommandException extends Exception {
+    }
+  learner_created: true
+- name: src/calculator/exception/InvalidIdentifierException.java
+  visible: true
+  text: |
+    package calculator.exception;
+
+    public class InvalidIdentifierException extends Exception {
+    }
+  learner_created: true
+- name: src/calculator/exception/UnknownVariableException.java
+  visible: true
+  text: |
+    package calculator.exception;
+
+    public class UnknownVariableException extends Exception {
+    }
+  learner_created: true
+- name: src/calculator/exception/InvalidAssignmentException.java
+  visible: true
+  text: |
+    package calculator.exception;
+
+    public class InvalidAssignmentException extends Exception {
+    }
+  learner_created: true
 feedback_link: https://hyperskill.org/projects/42/stages/226/implement#comment
 status: Unchecked
 record: -1
