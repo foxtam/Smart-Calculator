@@ -2,9 +2,7 @@ package calculator;
 
 import calculator.exception.*;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -14,6 +12,14 @@ public class Main {
     private static final Pattern assignPattern = Pattern.compile("(.+?)\\s*=\\s*(.+)");
     private static final Pattern toPlusPattern = Pattern.compile("\\+{2,}|(--)+");
     private static final Pattern toMinusPattern = Pattern.compile("-\\+|\\+-");
+    private static final String unaryMinus = "(-)";
+    private static final Map<String, Integer> operatorPriority =
+            Map.of("*", 7,
+                    "/", 7,
+                    "+", 5,
+                    "-", 5,
+                    unaryMinus, 8);
+
     private static boolean doContinue = true;
 
     public static void main(String[] args) {
@@ -54,19 +60,17 @@ public class Main {
     private static void runAssign(String line) throws InvalidIdentifierException, InvalidAssignmentException, UnknownVariableException {
         Matcher matcher = assignPattern.matcher(line);
         if (!matcher.find()) throw new InvalidAssignmentException();
+
         String variableName = matcher.group(1);
         if (!isCorrectIdentifier(variableName)) throw new InvalidIdentifierException();
+
         String expression = matcher.group(2);
-        if (!isCorrectExpression(expression)) throw new InvalidAssignmentException();
+
         try {
             store.put(variableName, calculateExpression(expression));
         } catch (InvalidExpressionException e) {
             throw new InvalidAssignmentException();
         }
-    }
-
-    private static boolean isCorrectExpression(String expression) {
-        return expression.matches("[-+]?(\\d+|[a-zA-Z]+)(\\s+[-+]+\\s+(\\d+|[a-zA-Z]+))*");
     }
 
     private static boolean isAssignment(String line) {
@@ -99,35 +103,102 @@ public class Main {
     private static int calculateExpression(String line) throws InvalidExpressionException, UnknownVariableException {
         line = shrinkOperators(line);
         line = replaceVariables(line);
-        if (hasAnyLetter(line)) throw new UnknownVariableException();
-        String[] tokens = line.split("\\s+");
-        return parseAndCalculate(tokens);
+        line = line.replaceAll("\\s+", "");
+        if (line.matches(".*(\\d[a-zA-Z]|([*/^]){2,}).*")) {
+            throw new InvalidExpressionException();
+        }
+        if (line.matches(".*[a-zA-Z].*")) throw new UnknownVariableException();
+        String[] tokens = line.split("(?<=\\D)|(?=\\D)");
+        String[] rpn = getReversedPolishNotation(tokens);
+        return calculateReversedPolishNotation(rpn);
     }
 
-    private static int parseAndCalculate(String[] tokens) throws InvalidExpressionException {
-        int result = Integer.parseInt(tokens[0]);
-        for (int i = 1; i < tokens.length; i += 2) {
-            switch (tokens[i]) {
-                case "+":
-                    result += Integer.parseInt(tokens[i + 1]);
-                    break;
-                case "-":
-                    result -= Integer.parseInt(tokens[i + 1]);
-                    break;
-                default:
-                    throw new InvalidExpressionException();
+    private static int calculateReversedPolishNotation(String[] expression) throws InvalidExpressionException {
+        Deque<Integer> stack = new ArrayDeque<>();
+        for (String token : expression) {
+            if (isNumber(token)) {
+                stack.addLast(Integer.valueOf(token));
+            } else if (token.equals(unaryMinus)) {
+                stack.addLast(stack.removeLast() * -1);
+            } else {
+                Integer b = stack.removeLast();
+                Integer a = stack.removeLast();
+                stack.addLast(performOperation(token, a, b));
             }
         }
-        return result;
+        return stack.removeLast();
     }
 
-    private static boolean hasAnyLetter(String line) {
-        return line.matches(".*[a-zA-Z].*");
+    private static Integer performOperation(String operator, Integer a, Integer b) throws InvalidExpressionException {
+        switch (operator) {
+            case "*":
+                return a * b;
+            case "/":
+                return a / b;
+            case "+":
+                return a + b;
+            case "-":
+                return a - b;
+            default:
+                throw new InvalidExpressionException();
+        }
+    }
+
+    private static String[] getReversedPolishNotation(String[] tokens) throws InvalidExpressionException {
+        if (tokens[0].equals("-")) tokens[0] = unaryMinus;
+
+        List<String> expression = new ArrayList<>();
+        Deque<String> stack = new ArrayDeque<>();
+
+        for (String token : tokens) {
+            if (isNumber(token)) {
+                expression.add(token);
+            } else if (token.equals("(")) {
+                stack.addLast(token);
+            } else if (operatorPriority.containsKey(token)) {
+                removeOperatorsToExpressionByPriority(expression, stack, token);
+                stack.addLast(token);
+            } else if (token.equals(")")) {
+                removeOperatorsToExpressionUntilLeftParenthesis(expression, stack);
+            } else {
+                throw new InvalidExpressionException();
+            }
+        }
+
+        while (!stack.isEmpty()) {
+            String element = stack.removeLast();
+            if (element.equals("(")) throw new InvalidExpressionException();
+            expression.add(element);
+        }
+
+        return expression.toArray(new String[0]);
+    }
+
+    private static void removeOperatorsToExpressionUntilLeftParenthesis(List<String> expression, Deque<String> stack) throws InvalidExpressionException {
+        try {
+            while (!stack.getLast().equals("(")) {
+                expression.add(stack.removeLast());
+            }
+            stack.removeLast();
+        } catch (NoSuchElementException e) {
+            throw new InvalidExpressionException();
+        }
+    }
+
+    private static void removeOperatorsToExpressionByPriority(List<String> expression, Deque<String> stack, String token) {
+        while (!stack.isEmpty() && !stack.getLast().equals("(")
+                && operatorPriority.get(token) <= operatorPriority.get(stack.getLast())) {
+            expression.add(stack.removeLast());
+        }
+    }
+
+    private static boolean isNumber(String token) {
+        return token.matches("\\d+");
     }
 
     private static String replaceVariables(String line) {
         for (Map.Entry<String, Integer> entry : store.entrySet()) {
-            line = line.replaceAll("\\b" + entry.getKey() + "\\b", entry.getValue().toString());
+            line = line.replaceAll("\\b" + entry.getKey() + "\\b", "(0" + entry.getValue().toString() + ")");
         }
         return line;
     }

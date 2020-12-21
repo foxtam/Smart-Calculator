@@ -1,21 +1,6 @@
 type: edu
 custom_name: stage7
 files:
-- name: src/calculator/Main.java
-  visible: true
-  text: |
-    package calculator;
-
-    import java.util.Scanner;
-
-    public class Main {
-
-        public static void main(String[] args) {
-            Scanner scanner = new Scanner(System.in);
-            // put your code here
-        }
-    }
-  learner_created: false
 - name: test/Test.java
   visible: false
   text: |
@@ -276,6 +261,24 @@ files:
     public class InvalidAssignmentException extends Exception {
     }
   learner_created: true
+- name: src/calculator/Main.java
+  visible: true
+  text: |
+    package calculator;
+
+    import java.util.Scanner;
+
+    public class Main {
+
+        public static void main(String[] args) {
+            Scanner scanner = new Scanner(System.in);
+            // put your code here
+        }
+    }
+  learner_created: false
 feedback_link: https://hyperskill.org/projects/42/stages/226/implement#comment
-status: Unchecked
+status: Solved
+feedback:
+  message: Congratulations!
+  time: Mon, 21 Dec 2020 12:22:55 UTC
 record: -1
