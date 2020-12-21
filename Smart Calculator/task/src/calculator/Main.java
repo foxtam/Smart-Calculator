@@ -2,13 +2,14 @@ package calculator;
 
 import calculator.exception.*;
 
+import java.math.BigInteger;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Main {
 
-    private static final Map<String, Integer> store = new HashMap<>();
+    private static final Map<String, BigInteger> store = new HashMap<>();
     private static final Pattern assignPattern = Pattern.compile("(.+?)\\s*=\\s*(.+)");
     private static final Pattern toPlusPattern = Pattern.compile("\\+{2,}|(--)+");
     private static final Pattern toMinusPattern = Pattern.compile("-\\+|\\+-");
@@ -18,7 +19,8 @@ public class Main {
                     "/", 7,
                     "+", 5,
                     "-", 5,
-                    unaryMinus, 8);
+                    unaryMinus, 8,
+                    "^", 7);
 
     private static boolean doContinue = true;
 
@@ -100,7 +102,7 @@ public class Main {
         System.out.println(calculateExpression(line));
     }
 
-    private static int calculateExpression(String line) throws InvalidExpressionException, UnknownVariableException {
+    private static BigInteger calculateExpression(String line) throws InvalidExpressionException, UnknownVariableException {
         line = shrinkOperators(line);
         line = replaceVariables(line);
         line = line.replaceAll("\\s+", "");
@@ -113,32 +115,34 @@ public class Main {
         return calculateReversedPolishNotation(rpn);
     }
 
-    private static int calculateReversedPolishNotation(String[] expression) throws InvalidExpressionException {
-        Deque<Integer> stack = new ArrayDeque<>();
+    private static BigInteger calculateReversedPolishNotation(String[] expression) throws InvalidExpressionException {
+        Deque<BigInteger> stack = new ArrayDeque<>();
         for (String token : expression) {
             if (isNumber(token)) {
-                stack.addLast(Integer.valueOf(token));
+                stack.addLast(new BigInteger(token));
             } else if (token.equals(unaryMinus)) {
-                stack.addLast(stack.removeLast() * -1);
+                stack.addLast(stack.removeLast().negate());
             } else {
-                Integer b = stack.removeLast();
-                Integer a = stack.removeLast();
+                BigInteger b = stack.removeLast();
+                BigInteger a = stack.removeLast();
                 stack.addLast(performOperation(token, a, b));
             }
         }
         return stack.removeLast();
     }
 
-    private static Integer performOperation(String operator, Integer a, Integer b) throws InvalidExpressionException {
+    private static BigInteger performOperation(String operator, BigInteger a, BigInteger b) throws InvalidExpressionException {
         switch (operator) {
             case "*":
-                return a * b;
+                return a.multiply(b);
             case "/":
-                return a / b;
+                return a.divide(b);
             case "+":
-                return a + b;
+                return a.add(b);
             case "-":
-                return a - b;
+                return a.subtract(b);
+            case "^":
+                return a.pow(b.intValueExact());
             default:
                 throw new InvalidExpressionException();
         }
@@ -197,7 +201,7 @@ public class Main {
     }
 
     private static String replaceVariables(String line) {
-        for (Map.Entry<String, Integer> entry : store.entrySet()) {
+        for (Map.Entry<String, BigInteger> entry : store.entrySet()) {
             line = line.replaceAll("\\b" + entry.getKey() + "\\b", "(0" + entry.getValue().toString() + ")");
         }
         return line;
